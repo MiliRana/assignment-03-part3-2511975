@@ -1,12 +1,13 @@
-# part3_api_files.py
-# Assignment Part 3
-# did this step by step, tested along the way
+# Assignment 3 – Part 
+# File I/O, APIs & Exception Handling
+# Name: Mili Rana
+# Student ID: 2511975
 
 import requests
 from datetime import datetime
 
 
-# ----------------- error logging -----------------
+# error logging
 # writing errors into a file so we can check later
 def log_error(where, err_type, msg):
     with open("error_log.txt", "a", encoding="utf-8") as f:
@@ -14,7 +15,12 @@ def log_error(where, err_type, msg):
         f.write(f"[{now}] ERROR in {where}: {err_type} — {msg}\n")
 
 
-# ----------------- writing notes -----------------
+# =========================================================
+# Task 1 — File Read & Write Basics
+# =========================================================
+
+# writing notes 
+
 notes = [
     "Topic 1: Variables store data. Python is dynamically typed.",
     "Topic 2: Lists are ordered and mutable.",
@@ -24,6 +30,7 @@ notes = [
 ]
 
 # first writing fresh file
+
 with open("python_notes.txt", "w", encoding="utf-8") as f:
     for line in notes:
         f.write(line + "\n")
@@ -31,6 +38,7 @@ with open("python_notes.txt", "w", encoding="utf-8") as f:
 print("File written successfully.")
 
 # adding a couple more topics
+
 with open("python_notes.txt", "a", encoding="utf-8") as f:
     f.write("Topic 6: Functions help reuse code.\n")
     f.write("Topic 7: APIs allow communication between systems.\n")
@@ -38,7 +46,8 @@ with open("python_notes.txt", "a", encoding="utf-8") as f:
 print("Lines appended.")
 
 
-# ----------------- reading file -----------------
+#  reading file 
+
 print("\nReading file...\n")
 
 line_count = 0
@@ -51,6 +60,7 @@ with open("python_notes.txt", "r", encoding="utf-8") as f:
 print("Total number of lines:", line_count)
 
 # searching keyword (case insensitive)
+
 key = input("Enter a keyword to search in notes: ")
 
 found = False
@@ -64,8 +74,13 @@ if not found:
     print("No matching lines found.")
 
 
-# ----------------- safe divide -----------------
-# simple try-except so program doesn't crash
+
+# =========================================================
+# Task 3- Exception Handling
+# =========================================================
+
+# safe drive
+
 def safe_divide(a, b):
     try:
         return a / b
@@ -81,7 +96,8 @@ print(safe_divide(10, 0))
 print(safe_divide("ten", 2))
 
 
-# ----------------- safe file read -----------------
+# safe file read 
+
 def read_file_safe(filename):
     try:
         with open(filename, "r", encoding="utf-8") as f:
@@ -98,7 +114,12 @@ print(read_file_safe("python_notes.txt"))
 print(read_file_safe("ghost_file.txt"))
 
 
-# ----------------- API part -----------------
+# =========================================================
+# Task 2- API Integration
+# =========================================================
+
+# API part 
+
 print("\nGetting product data...")
 
 url = "https://dummyjson.com/products?limit=20"
@@ -125,7 +146,7 @@ except Exception as e:
     log_error("fetch_products", "Exception", str(e))
 
 
-# ----------------- filter + sort -----------------
+# filter + sort 
 print("\nHigh rated products (>= 4.5):")
 
 # filtering
@@ -138,7 +159,7 @@ for p in good_sorted:
     print(p['title'], "-", p['price'], "-", p['rating'])
 
 
-# ----------------- category search -----------------
+# category search 
 print("\nChecking laptops category...")
 
 try:
@@ -153,7 +174,7 @@ except Exception as e:
     log_error("category_search", "Exception", str(e))
 
 
-# ----------------- POST request -----------------
+# POST request 
 print("\nSending POST request...")
 
 new_product = {
@@ -171,7 +192,12 @@ except Exception as e:
     log_error("post_product", "Exception", str(e))
 
 
-# ----------------- input loop -----------------
+# =========================================================
+# Task 3 — Exception Handling
+# =========================================================
+
+# input loop 
+
 while True:
     user_input = input("\nEnter product ID (1–100) or 'quit': ")
 
@@ -203,22 +229,29 @@ while True:
         log_error("lookup_product", "Exception", str(e))
 
 
-# ----------------- forcing errors -----------------
+# =========================================================
+# Task 4 — Logging to File
+# =========================================================
+
+# forcing errors 
+
 print("\nTriggering errors for logging...")
 
 # fake bad URL
+
 try:
     requests.get("https://this-host-does-not-exist-xyz.com/api", timeout=5)
 except Exception as e:
     log_error("test_connection", "ConnectionError", str(e))
 
 # manual 404
+
 r = requests.get("https://dummyjson.com/products/999")
 if r.status_code != 200:
     log_error("lookup_product", "HTTPError", "404 Not Found for product ID 999")
 
 
-# ----------------- show logs -----------------
+# show logs 
 print("\nReading log file...\n")
 
 try:
